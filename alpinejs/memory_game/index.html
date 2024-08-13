@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+<div x-data="game()" class="px-10 flex items-center justify-center min-h-screen">
+    <h1 class="fixed top-0 right-0 p-10 font-bold text-3xl">
+        <span x-text="points"></span>
+        <span class="text-xs">pts</span>
+    </h1>
+    <div class="flex-1 grid grid-cols-4 gap-10">
+        <template x-for="card in cards">
+            <div>
+                <button x-show="!card.cleared"
+                        :style="'background: ' + (card.flipped ? card.color: '#999')"
+                         class="w-full h-32 cursor-pointer"
+                         @click="flipCard(card)">
+                </button>
+            </div>
+        </template>
+    </div>
+</div>
+
+<!-- flash message -->
+<div x-data="{ show: false, message: '' }"
+     x-show.transition.apacity="show"
+     @flash.window="
+         message = $event.detail.message;
+         show = true;
+         setTimeout(() => show = false, 1000)
+    "
+     class="fixed bottom-0 right-0 bg-green-500 text-white p-2 mb-4 mr-4 rounded"
+>
+    <span x-text="message" class="pr-4"></span>
+</div>
+
+<script src="index.js"></script>
+
+</body>
+</html>
